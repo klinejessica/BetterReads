@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-    <div th:fragment = "search-panel">
+    <div th:fragment ="search-panel">
         <form action="search.html" th:attr="action=@{/search}">
         <div class="input-group mb-3">
-            <input type="text" name="query" class="form-control" placeholder="search for a book" aria-label="Search Query" aria-describedby="basic-addon2">
-            <span type="submit" class="input-group-text" id="basic-addon2">search</span>
+            <input type="text" name="query" class="form-control" aria-label="Search Query" aria-describedby="basic-addon2">
+            <button type="submit" class="input-group-text" id="basic-addon2">search</button>
           </div>
         </form>
 

@@ -9,8 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.reactive.result.method.annotation.PrincipalMethodArgumentResolver;
+
 
 import io.jessica.betterreads.userbooks.UserBooks;
 import io.jessica.betterreads.userbooks.UserBooksPrimaryKey;
@@ -20,7 +19,7 @@ import io.jessica.betterreads.userbooks.UserBooksRepository;
 @Controller
 public class BookController {
 
-    private final String COVER_IMG_ROOT = "http://covers.openlibrary.org/b/id/";
+    private final String COVER_IMAGE_ROOT = "http://covers.openlibrary.org/b/id/";
 
     @Autowired 
     BookRepository bookRepository;
@@ -29,20 +28,20 @@ public class BookController {
     UserBooksRepository userBooksRepository;
 
     @GetMapping(value="/books/{bookId}")
-    public String getBook(@PathVariable String bookId, Model model, @AuthenticationPrincipal OAuth2User principle) {
+    public String getBook(@PathVariable String bookId, Model model, @AuthenticationPrincipal OAuth2User principal) {
         Optional<Book> optionalBook = bookRepository.findById(bookId);
         if(optionalBook.isPresent()){
             Book book = optionalBook.get();
-            String coverImgURL = "/images/no-image.png";
+            String coverImageUrl = "/images/no-image.png";
             if(book.getCoverIds() != null & book.getCoverIds().size()> 0){
-                coverImgURL = COVER_IMG_ROOT + book.getCoverIds().get(0) + "-L.jpg";
+                coverImageUrl = COVER_IMAGE_ROOT + book.getCoverIds().get(0) + "-L.jpg";
             }
-            model.addAttribute("coverImg", coverImgURL);
+            model.addAttribute("coverImage", coverImageUrl);
             model.addAttribute("book", book);
 
-            if(principle != null && principle.getAttribute("login") != null){
-                String userId = principle.getAttribute("login");
-                model.addAttribute("loginId", principle.getAttribute("login"));
+            if(principal != null && principal.getAttribute("login") != null){
+                String userId = principal.getAttribute("login");
+                model.addAttribute("loginId", principal.getAttribute("login"));
                 UserBooksPrimaryKey key = new UserBooksPrimaryKey();
                 key.setBookId(bookId);
                 key.setUserId(userId);

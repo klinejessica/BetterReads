@@ -1,7 +1,9 @@
 package io.jessica.betterreads.book;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
+import org.springframework.stereotype.Repository;
 
-public interface BookRepository extends CassandraRepository<Book,String> {
+@Repository
+public interface BookRepository extends CassandraRepository<Book, String> {
     
 }
